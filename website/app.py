@@ -187,7 +187,5 @@ def get_features():
 
 
 if __name__ == '__main__':
-    # 加载或训练模型
     load_model()
-    # 启动Flask服务器
     app.run(debug=True)
