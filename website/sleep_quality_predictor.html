@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Quality Predictor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        form {
+            display: grid;
+            grid-gap: 20px;
+        }
+        
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ecf0f1;
+        }
+        
+        #result h2 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+        
+        .advice {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .advice h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sleep Quality Predictor</h1>
+        <p>Enter your sleep and lifestyle information to get an assessment of your sleep quality</p>
+        
+        <form id="sleepForm">
+            <div class="form-group">
+                <div>
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="0" max="120" required>
+                </div>
+                
+                <div>
+                    <label for="sleepDuration">Sleep Duration (hours)</label>
+                    <input type="number" id="sleepDuration" name="sleepDuration" min="3" max="12" step="0.5" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <label for="physicalActivity">Physical Activity Level (minutes/day)</label>
+                    <input type="number" id="physicalActivity" name="physicalActivity" min="0" max="300" required>
+                </div>
+                
+                <div>
+                    <label for="stressLevel">Stress Level (1-10)</label>
+                    <input type="number" id="stressLevel" name="stressLevel" min="1" max="10" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <label for="heartRate">Heart Rate (bpm)</label>
+                    <input type="number" id="heartRate" name="heartRate" min="40" max="150" required>
+                </div>
+                
+                <div>
+                    <label for="dailySteps">Daily Steps</label>
+                    <input type="number" id="dailySteps" name="dailySteps" min="0" max="30000" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div>
+                    <label for="occupation">Occupation</label>
+                    <select id="occupation" name="occupation" required>
+                        <option value="">Select Occupation</option>
+                        <option value="Accountant">Accountant</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Engineer">Engineer</option>
+                        <option value="Lawyer">Lawyer</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Sales Representative">Sales Representative</option>
+                        <option value="Salesperson">Salesperson</option>
+                        <option value="Scientist">Scientist</option>
+                        <option value="Software Engineer">Software Engineer</option>
+                        <option value="Teacher">Teacher</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="bmiCategory">BMI Category</label>
+                    <select id="bmiCategory" name="bmiCategory" required>
+                        <option value="">Select BMI Category</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Normal Weight">Normal Weight</option>
+                        <option value="Obese">Obese</option>
+                        <option value="Overweight">Overweight</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <div>
+                    <label for="sleepDisorder">Sleep Disorder</label>
+                    <select id="sleepDisorder" name="sleepDisorder" required>
+                        <option value="">Select Sleep Disorder</option>
+                        <option value="None">None</option>
+                        <option value="Insomnia">Insomnia</option>
+                        <option value="Sleep Apnea">Sleep Apnea</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <button type="submit">Check Sleep Quality</button>
+            </div>
+        </form>
+        
+        <div id="result" style="display: none;">
+            <h2>Your Sleep Quality Assessment</h2>
+            <div id="userData"></div>
+            <div class="advice">
+                <h3>General Sleep Advice</h3>
+                <div id="adviceContent"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('sleepForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const age = formData.get('age');
+            const sleepDuration = formData.get('sleepDuration');
+            const physicalActivity = formData.get('physicalActivity');
+            const stressLevel = formData.get('stressLevel');
+            const heartRate = formData.get('heartRate');
+            const dailySteps = formData.get('dailySteps');
+            const occupation = formData.get('occupation');
+            const bmiCategory = formData.get('bmiCategory');
+            const sleepDisorder = formData.get('sleepDisorder');
+            
+            // Display user data
+            document.getElementById('userData').innerHTML = `
+                <p><strong>Age:</strong> ${age} years</p>
+                <p><strong>Sleep Duration:</strong> ${sleepDuration} hours</p>
+                <p><strong>Physical Activity:</strong> ${physicalActivity} minutes/day</p>
+                <p><strong>Stress Level:</strong> ${stressLevel}/10</p>
+                <p><strong>Heart Rate:</strong> ${heartRate} bpm</p>
+                <p><strong>Daily Steps:</strong> ${dailySteps}</p>
+                <p><strong>Occupation:</strong> ${occupation}</p>
+                <p><strong>BMI Category:</strong> ${bmiCategory}</p>
+                <p><strong>Sleep Disorder:</strong> ${sleepDisorder}</p>
+            `;
+            
+            // Create data object to send to API
+            const data = {
+                "Age": parseInt(age),
+                "Sleep Duration": parseFloat(sleepDuration),
+                "Physical Activity Level": parseInt(physicalActivity),
+                "Stress Level": parseInt(stressLevel),
+                "Heart Rate": parseInt(heartRate),
+                "Daily Steps": parseInt(dailySteps),
+                "Occupation": occupation,
+                "BMI Category": bmiCategory,
+                "Sleep Disorder": sleepDisorder
+            };
+            
+            // Add loading message
+            document.getElementById('result').innerHTML = `<h2>Loading prediction...</h2>`;
+            document.getElementById('result').style.display = 'block';
+            
+            // Send AJAX request to Flask API
+            fetch('http://localhost:5000/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Display prediction result
+                let predictionHTML = `<h2>Your Sleep Quality Assessment</h2>`;
+                predictionHTML += `<p><strong>Predicted Sleep Quality Score:</strong> <span style="font-size: 24px; color: #3498db; font-weight: bold;">${result.prediction.toFixed(2)}/10</span></p>`;
+                
+                // Interpret the score
+                let interpretation = '';
+                if (result.prediction >= 8) {
+                    interpretation = "Excellent sleep quality! You're doing great.";
+                } else if (result.prediction >= 6) {
+                    interpretation = "Good sleep quality, but there's room for improvement.";
+                } else if (result.prediction >= 4) {
+                    interpretation = "Fair sleep quality. Consider making some changes to improve your sleep.";
+                } else {
+                    interpretation = "Poor sleep quality. It's recommended to consult a healthcare professional for advice.";
+                }
+                
+                predictionHTML += `<p><strong>Interpretation:</strong> ${interpretation}</p>`;
+                
+                // Add user data
+                predictionHTML += '<h3>Your Inputs:</h3>';
+                predictionHTML += `
+                    <p><strong>Age:</strong> ${age} years</p>
+                    <p><strong>Sleep Duration:</strong> ${sleepDuration} hours</p>
+                    <p><strong>Physical Activity:</strong> ${physicalActivity} minutes/day</p>
+                    <p><strong>Stress Level:</strong> ${stressLevel}/10</p>
+                    <p><strong>Heart Rate:</strong> ${heartRate} bpm</p>
+                    <p><strong>Daily Steps:</strong> ${dailySteps}</p>
+                    <p><strong>Occupation:</strong> ${occupation}</p>
+                    <p><strong>BMI Category:</strong> ${bmiCategory}</p>
+                    <p><strong>Sleep Disorder:</strong> ${sleepDisorder}</p>
+                `;
+                
+                // Generate personalized advice based on prediction and inputs
+                let advice = [];
+                
+                if (result.prediction < 6) {
+                    advice.push("Based on your prediction, we recommend focusing on improving your sleep habits.");
+                }
+                
+                if (sleepDuration < 7) {
+                    advice.push("You're getting less than the recommended 7-9 hours of sleep per night. Try to increase your sleep duration by going to bed 30 minutes earlier each night.");
+                } else if (sleepDuration > 9) {
+                    advice.push("You're sleeping more than the recommended 7-9 hours. While some people need more sleep, excessive sleep can sometimes indicate underlying health issues.");
+                } else {
+                    advice.push("Great! You're getting the recommended 7-9 hours of sleep per night, which is excellent for your health.");
+                }
+                
+                if (stressLevel > 7) {
+                    advice.push("Your stress level is high. Consider incorporating stress management techniques like meditation, deep breathing exercises, or yoga into your daily routine.");
+                } else if (stressLevel < 4) {
+                    advice.push("Good job! Your stress level appears to be well-managed, which is beneficial for your sleep quality.");
+                }
+                
+                if (physicalActivity < 30) {
+                    advice.push("You're getting less than the recommended 30 minutes of physical activity per day. Try to increase your daily activity level with brisk walks, cycling, or other forms of exercise.");
+                } else {
+                    advice.push("Excellent! You're meeting or exceeding the recommended physical activity guidelines, which helps improve sleep quality.");
+                }
+                
+                if (dailySteps < 5000) {
+                    advice.push("Your daily step count is lower than the general recommendation. Consider taking more walks throughout the day, such as walking during lunch breaks or parking further from your destination.");
+                } else if (dailySteps > 10000) {
+                    advice.push("Great! You're achieving more than 10,000 steps per day, which is excellent for your overall health and sleep quality.");
+                }
+                
+                if (sleepDisorder !== "None") {
+                    advice.push(`If you have ${sleepDisorder}, consider consulting a healthcare professional for proper diagnosis and treatment options.`);
+                } else {
+                    advice.push("Good news! You don't report any sleep disorders, which is positive for your sleep quality.");
+                }
+                
+                // Display the full result
+                document.getElementById('result').innerHTML = predictionHTML;
+                document.getElementById('result').innerHTML += `
+                    <div class="advice">
+                        <h3>Personalized Sleep Advice</h3>
+                        ${advice.map(adv => `<p>${adv}</p>`).join('')}
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Fallback to general advice if API call fails
+                let errorHTML = `<h2>Your Sleep Quality Assessment</h2>`;
+                errorHTML += `<p><strong>Prediction Service:</strong> Currently unavailable. Showing general advice based on your inputs.</p>`;
+                
+                // Add user data
+                errorHTML += '<h3>Your Inputs:</h3>';
+                errorHTML += `
+                    <p><strong>Age:</strong> ${age} years</p>
+                    <p><strong>Sleep Duration:</strong> ${sleepDuration} hours</p>
+                    <p><strong>Physical Activity:</strong> ${physicalActivity} minutes/day</p>
+                    <p><strong>Stress Level:</strong> ${stressLevel}/10</p>
+                    <p><strong>Heart Rate:</strong> ${heartRate} bpm</p>
+                    <p><strong>Daily Steps:</strong> ${dailySteps}</p>
+                    <p><strong>Occupation:</strong> ${occupation}</p>
+                    <p><strong>BMI Category:</strong> ${bmiCategory}</p>
+                    <p><strong>Sleep Disorder:</strong> ${sleepDisorder}</p>
+                `;
+                
+                // Generate general advice
+                let advice = [];
+                
+                if (sleepDuration < 7) {
+                    advice.push("You're getting less than the recommended 7-9 hours of sleep per night. Try to increase your sleep duration.");
+                } else if (sleepDuration > 9) {
+                    advice.push("You're sleeping more than the recommended 7-9 hours. While some people need more sleep, excessive sleep can sometimes indicate underlying health issues.");
+                } else {
+                    advice.push("Great! You're getting the recommended 7-9 hours of sleep per night.");
+                }
+                
+                if (stressLevel > 7) {
+                    advice.push("Your stress level is high. Consider incorporating stress management techniques like meditation or yoga into your daily routine.");
+                } else if (stressLevel < 4) {
+                    advice.push("Good job! Your stress level appears to be well-managed.");
+                }
+                
+                if (physicalActivity < 30) {
+                    advice.push("You're getting less than the recommended 30 minutes of physical activity per day. Try to increase your daily activity level.");
+                } else {
+                    advice.push("Excellent! You're meeting or exceeding the recommended physical activity guidelines.");
+                }
+                
+                if (dailySteps < 5000) {
+                    advice.push("Your daily step count is lower than the general recommendation. Consider taking more walks throughout the day.");
+                } else if (dailySteps > 10000) {
+                    advice.push("Great! You're achieving more than 10,000 steps per day, which is excellent for your health.");
+                }
+                
+                if (sleepDisorder !== "None") {
+                    advice.push(`If you have ${sleepDisorder}, consider consulting a healthcare professional for proper diagnosis and treatment.`);
+                } else {
+                    advice.push("Good news! You don't report any sleep disorders.");
+                }
+                
+                // Display the error result
+                document.getElementById('result').innerHTML = errorHTML;
+                document.getElementById('result').innerHTML += `
+                    <div class="advice">
+                        <h3>General Sleep Advice</h3>
+                        ${advice.map(adv => `<p>${adv}</p>`).join('')}
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
